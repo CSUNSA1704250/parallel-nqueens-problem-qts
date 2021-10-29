@@ -15,14 +15,13 @@ bool isEatable(int row, int column, std::deque<int> &queens) {
 
 int solve(int n, int row, std::deque<int> &queens) {
     if(queens.size() == n) {
-        /*for(auto i: queens)
+        for(auto i: queens)
             std::cout << i <<" ";
-        std::cout << std::endl;*/
+        std::cout << std::endl;
         total++;
         return 1;
     }
 
-    #pragma omp parallel
     #pragma omp task shared(queens)
     for(int i = 0; i < n; i++) { 
         if(!isEatable(row,i,queens)) {
@@ -32,8 +31,8 @@ int solve(int n, int row, std::deque<int> &queens) {
             }
             else queens.pop_back();
         }
-        #pragma omp taskwait
-    }    
+    }
+    #pragma omp taskwait
     return 0;
 }
 
@@ -44,6 +43,8 @@ int main(int argc, char **argv) {
     int ROW = 0;
     int nQueens = atoi(n.c_str());
     std::deque<int> queens;
+    #pragma omp parallel
+    #pragma omp single
     solve(nQueens, ROW, queens);
     std::cout << total;
     return 0;
