@@ -15,13 +15,16 @@ bool isEatable(int row, int column, std::deque<int> &queens) {
 
 int solve(int n, int row, std::deque<int> &queens) {
     if(queens.size() == n) {
+        /*
         for(auto i: queens)
             std::cout << i <<" ";
         std::cout << std::endl;
+        */
         total++;
         return 1;
     }
 
+    #pragma omp paralel if(queens)
     #pragma omp task shared(queens)
     for(int i = 0; i < n; i++) { 
         if(!isEatable(row,i,queens)) {
