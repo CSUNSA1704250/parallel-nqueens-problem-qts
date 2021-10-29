@@ -107,9 +107,38 @@ void drawGraph() {
 }
 
 int main(int argc, char **argv) {   
-    std::string n;
-    if (argc > 1)
-        n = argv[1];
+    std::string problemFlag = argv[1];
+    std::string typeProblem = argv[2];
+    std::string NFlag = argv[3];
+    std::string n = argv[4];
+
+    if(argc < 5)
+        std::cout << "Ingrese correctamente los parametros de ejecucion\n";
+    else {
+        if(NFlag.compare(std::string("-N")) != 0){
+            std::cout << "Error con flag de tamanho\n";
+            return -1;
+        }
+
+        if(problemFlag.compare(std::string("-problemType")) == 0){
+            if(typeProblem.compare(std::string("all")) == 0){
+                int ROW = 0;
+                int nQueens = atoi(n.c_str());
+                std::deque<int> queens;
+                std::string positions;
+                #pragma omp parallel
+                #pragma omp single
+                solve(nQueens, ROW, queens, positions);
+                printSolutions(positions, nQueens);
+                generateDOTFile(positions);
+            }
+
+            else if(typeProblem.compare(std::string("find")) == 0){
+                drawGraph();
+            }
+        }
+	}
+/*
     int ROW = 0;
     int nQueens = atoi(n.c_str());
     std::deque<int> queens;
@@ -119,8 +148,8 @@ int main(int argc, char **argv) {
     solve(nQueens, ROW, queens, positions);
     printSolutions(positions, nQueens);
     generateDOTFile(positions);
-    drawGraph();
-    //if( argv[2] == "find")
-        
+    
+    if( argv[2] == "find")
+        drawGraph();    */
     return 0;
 }
