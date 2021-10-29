@@ -102,6 +102,10 @@ void generateDOTFile(std::string positions) {
     dotfile.close();
 }
 
+void drawGraph() {
+    system("dot -Tpng solution.dot -o solution.png");
+}
+
 int main(int argc, char **argv) {   
     std::string n;
     if (argc > 1)
@@ -115,5 +119,8 @@ int main(int argc, char **argv) {
     solve(nQueens, ROW, queens, positions);
     printSolutions(positions, nQueens);
     generateDOTFile(positions);
+    drawGraph();
+    //if( argv[2] == "find")
+        
     return 0;
 }
