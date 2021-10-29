@@ -2,6 +2,8 @@
 #include <deque>
 #include <fstream>
 #include <string>
+#include <sstream>
+#include <vector>
 
 int total = 0;
 bool isEatable(int row, int column, std::deque<int> &queens) {
@@ -56,6 +58,50 @@ void printSolutions(std::string positions, int nQueens) {
     output.close();
 }
 
+void simple_tokenizer(std::string s, std::vector<std::string> &pos) {
+    std::stringstream ss(s);
+    std::string word;
+    while (ss >> word)
+        pos.push_back(word);
+    pos.erase(pos.begin());
+}
+
+void generateDOTFile(std::string positions) {
+    std::ofstream dotfile;
+    dotfile.open("solution.dot", std::ios::out);
+    std::string sol;
+    std::vector<std::string> pos;
+    for(size_t i = 0; i < positions.size(); ++i) {  
+        if(positions[i] == '\n')
+            break;
+        else
+            sol.push_back(positions[i]); 
+    }
+
+    simple_tokenizer(sol, pos);
+
+    dotfile << "digraph D {\n"; 
+    dotfile << "\tnode [shape=plaintext]\n";
+    dotfile << "\tsome_node [\n";
+    dotfile << "\tlabel=<\n";
+    dotfile << "\t\t<table border=\"0\" cellborder=\"1\" cellspacing=\"0\">\n";
+
+    for(int i = 0; i < pos.size(); ++i) {
+        dotfile << "\t\t\t<tr>";
+        for(int j = 0; j < pos.size(); ++j) {
+            if(std::to_string(j) == pos[i])
+                dotfile << "<td>&#9813; </td>";
+            else
+                dotfile << "<td> </td>";
+        }
+        dotfile << "</tr>\n";
+    }
+    dotfile << "\t\t</table>>\n";
+    dotfile << "\t];\n";
+    dotfile << "}";
+    dotfile.close();
+}
+
 int main(int argc, char **argv) {   
     std::string n;
     if (argc > 1)
@@ -68,5 +114,6 @@ int main(int argc, char **argv) {
     #pragma omp single
     solve(nQueens, ROW, queens, positions);
     printSolutions(positions, nQueens);
+    generateDOTFile(positions);
     return 0;
 }
