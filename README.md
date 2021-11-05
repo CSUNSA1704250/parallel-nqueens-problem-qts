@@ -1,5 +1,8 @@
-# Name
+NQueens Problem using threads in C++
+
+# Developers
 Jefferson Flores Herrera
+
 Brian Pinto Medina
 
 # Compile
