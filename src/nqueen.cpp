@@ -4,8 +4,9 @@
 #include "../include/utils.hpp"
 #include <thread>
 
-NQueen::NQueen(int n_):
-n{n_}{
+NQueen::NQueen(int n_, int type_):
+n{n_},
+type{type_}{
   totalHW = utils::getTotalThreads(n);
   solutions = new Queue<std::deque<int>> (totalHW);
 }

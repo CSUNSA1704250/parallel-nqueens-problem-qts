@@ -29,7 +29,7 @@ void Consumer::consumeData(bool stillProducing){
       //if data is available exec
       int nProblem = queenProblem -> getN();
       int nextRow = data.size();
-      utils::solve(nProblem, nextRow, data, queenProblem -> getSolutionsQueue());
+      utils::solve(nProblem, nextRow, data, queenProblem -> getSolutionsQueue(), queenProblem -> getType());
       //data is still solvable from here
       if(stillProducing)
         return;

@@ -34,7 +34,7 @@ namespace utils{
     return false;
   }
   
-  int solve(int n, int row, std::deque<int> &queens, Queue<std::deque<int>>* solutions) {
+  int solve(int n, int row, std::deque<int> &queens, Queue<std::deque<int>>* solutions, int type) {
     if(queens.size() == n) {
       {
         std::unique_lock<std::mutex> l(total_mutex);
@@ -50,10 +50,14 @@ namespace utils{
       }
       return 1;
     }
+    if(type == 1 && !solutions -> isEmptyOfData())
+      return 1;
     for(int i = 0; i < n; i++) { 
         if(!isEatable(row,i,queens)) {
-          if(solve(n, row + 1, queens, solutions)) {
+          if(solve(n, row + 1, queens, solutions, type)) {
               queens.pop_back();//return here to end in the first solution
+              if(type == 1 && !solutions -> isEmptyOfData())
+                return 1;
               continue;
           }
           else queens.pop_back();

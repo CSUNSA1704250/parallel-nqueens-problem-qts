@@ -26,12 +26,14 @@ int main(int argc, char **argv){
       if(problemFlag.compare(std::string("-problemType")) == 0){
           if(typeProblem.compare(std::string("all")) == 0){
               int nProblem = atoi(n.c_str());
-              NQueen problem(nProblem);
+              NQueen problem(nProblem,0);
               problem.solve();
           }
 
           else if(typeProblem.compare(std::string("find")) == 0){
-              output.open("solutions.txt", std::ios::out);
+              int nProblem = atoi(n.c_str());
+              NQueen problem(nProblem,1);
+              problem.solve();
           }
       }
 	}
