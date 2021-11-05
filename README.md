@@ -1,9 +1,9 @@
-#Name
+# Name
 Jefferson Flores Herrera
 Brian Pinto Medina
 
-#Compile
+# Compile
 g++ include/queue.hpp src/consumer.cpp src/nqueen.cpp src/producer.cpp src/utils.cpp main.cpp -lpthread -o main
 
-#Run
+# Run
 ./main -problemType [all, find] -N <sizeOfProblem>
