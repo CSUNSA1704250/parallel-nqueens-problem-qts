@@ -12,5 +12,7 @@ namespace utils{
   int solve(int , int , std::deque<int> &, Queue<std::deque<int>>*, int type);
   void sendSolutionToFile(std::deque<int> &);
   int getTotal();
+  void simple_tokenizer(std::string s, std::vector<std::string> &);
+  void generateDOTFile(std::string);
 }
 #endif
