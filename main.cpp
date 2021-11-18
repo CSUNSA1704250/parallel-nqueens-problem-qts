@@ -42,7 +42,8 @@ int main(int argc, char **argv){
               int nProblem = atoi(n.c_str());
               NQueen problem(nProblem,1);
               problem.solve();
-              output << *(problem.getSolutionsStr());
+              utils::generateDOTFile(*(problem.getSolutionsStr()));
+              system("dot -Tpng solution.dot -o solution.png");
           }
       }
 	}

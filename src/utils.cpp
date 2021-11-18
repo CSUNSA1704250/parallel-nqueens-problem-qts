@@ -77,7 +77,6 @@ namespace utils{
     std::string word;
     while (ss >> word)
         pos.push_back(word);
-    pos.erase(pos.begin());
   }
 
   void generateDOTFile(std::string positions) {
@@ -93,7 +92,10 @@ namespace utils{
     }
 
     simple_tokenizer(sol, pos);
-
+    std::cout << sol <<"\n";
+    for(int i = 0; i< pos.size(); i++){
+      std::cout << pos[i]<< std::endl;
+    }
     dotfile << "digraph D {\n"; 
     dotfile << "\tnode [shape=plaintext]\n";
     dotfile << "\tsome_node [\n";
@@ -103,7 +105,7 @@ namespace utils{
     for(int i = 0; i < pos.size(); ++i) {
         dotfile << "\t\t\t<tr>";
         for(int j = 0; j < pos.size(); ++j) {
-            if(std::to_string(j) == pos[i])
+            if(j == std::atoi(pos[i].c_str())-1)
                 dotfile << "<td>&#9813; </td>";
             else
                 dotfile << "<td> </td>";
@@ -221,8 +223,8 @@ namespace utils{
       
       return;
     }
-    /*if(queenProblem -> getType() == 1 && !queenProblem->getSolutionsQueue() -> isEmptyOfData())
-      return;*/
+    if(queenProblem -> getType() == 1 && queenProblem->getSolutionsStr()->size() > 1)
+      return;
     int pos = ~(ld|rd|col|ex1) & *done;
     while(pos){
       int bit = pos & -pos;
