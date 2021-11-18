@@ -30,29 +30,22 @@ int main(int argc, char **argv){
           if(typeProblem.compare(std::string("all")) == 0){
               int nProblem = atoi(n.c_str());
               NQueen problem(nProblem,0);
-              problem.solve();
+              problem.solve();           
+              output <<"---------------------------------------------------------------------\nBEGIN FILE solutions.txt\n___________________________________________\n";
+              output << "#Solutions for "<< n<<" queens\n";
+              output << utils::getTotal() << "\n";   
+              output << *(problem.getSolutionsStr());
+              output <<"---------------------------------------------------------------------\nEND FILE solutions.txt\n___________________________________________";
           }
 
           else if(typeProblem.compare(std::string("find")) == 0){
               int nProblem = atoi(n.c_str());
               NQueen problem(nProblem,1);
               problem.solve();
+              output << *(problem.getSolutionsStr());
           }
       }
 	}
     output.close();
 
-    const std::string fileName = "solutions.txt";
-    std::fstream processedFile(fileName.c_str());
-    std::stringstream fileData;
-
-    fileData <<"---------------------------------------------------------------------\nBEGIN FILE solutions.txt\n___________________________________________\n";
-    fileData << "#Solutions for "<< n<<" queens\n";
-    fileData << utils::getTotal() << "\n";
-
-    fileData << processedFile.rdbuf();
-    processedFile.close();
-
-    processedFile.open(fileName.c_str(), std::fstream::out | std::fstream::trunc); 
-    processedFile << fileData.rdbuf();
 }

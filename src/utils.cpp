@@ -203,14 +203,17 @@ namespace utils{
       //TODO change n for a real number
       int n = queenProblem -> getN();
       answer += "\n" + inverse(answer, n) + "\n";
-      
-      Queue<std::string>* solutions = queenProblem->getSolutionsQueue();
+      { 
+        std::unique_lock<std::mutex> lockingSolutions(ios_m);
+        queenProblem -> getSolutionsStr()->append(answer);
+      }
+      /*Queue<std::string>* solutions = queenProblem->getSolutionsQueue();
       while(!solutions -> push(answer)){
         std::string solution;
         bool sucessSolution = solutions -> pop(&solution);
         if(sucessSolution)
           utils::sendSolutionToFile(solution);
-      }
+      }*/
       {
         std::unique_lock<std::mutex> l(total_mutex);
         total+=2;
@@ -218,8 +221,8 @@ namespace utils{
       
       return;
     }
-    if(queenProblem -> getType() == 1 && !queenProblem->getSolutionsQueue() -> isEmptyOfData())
-      return;
+    /*if(queenProblem -> getType() == 1 && !queenProblem->getSolutionsQueue() -> isEmptyOfData())
+      return;*/
     int pos = ~(ld|rd|col|ex1) & *done;
     while(pos){
       int bit = pos & -pos;

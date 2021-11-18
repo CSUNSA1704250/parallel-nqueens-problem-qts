@@ -9,6 +9,7 @@ n{n_},
 type{type_}{
   totalHW = utils::getTotalThreads(n);
   solutions = new Queue<std::string> (totalHW);
+  solutionsStr = "";
 }
 NQueen::~NQueen(){
   delete solutions;

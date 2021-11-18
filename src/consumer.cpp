@@ -7,7 +7,7 @@ queenProblem{queenProblem_}{}
 
 void Consumer::consumeData(bool stillProducing){
   int data;
-  Queue<std::string> * solutions = queenProblem -> getSolutionsQueue();
+  //Queue<std::string> * solutions = queenProblem -> getSolutionsQueue();
   while(true){
     //for find 
     //check flag of queenProblem if its set to true
@@ -15,13 +15,13 @@ void Consumer::consumeData(bool stillProducing){
     //if both flags are true stop consuming
     bool success = dataConsumed -> pop(&data);
     bool productionStillRunning = dataConsumed -> isProductionRunning();
-    if(!success && !solutions -> isEmptyOfData()){
+    /*if(!success && !solutions -> isEmptyOfData()){
       std::string solution;
       bool successSolution = solutions -> pop(&solution);
       if(successSolution)
         utils::sendSolutionToFile(solution);
       continue;
-    }
+    }*/
     if(!success && !productionStillRunning){
       return;
     }
