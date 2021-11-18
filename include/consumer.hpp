@@ -6,10 +6,10 @@
 
 class Consumer{
   public:
-    Consumer(Queue<std::deque<int>>*, NQueen*);
+    Consumer(Queue<int>*, NQueen*);
     void consumeData(bool);
   private:
-    Queue<std::deque<int>>* dataConsumed;
+    Queue<int>* dataConsumed;
     NQueen* queenProblem;
 };
 

@@ -1,7 +1,10 @@
 #include "include/nqueen.hpp"
 #include "include/producer.hpp"
+#include "include/utils.hpp"
 #include <iostream>
 #include <fstream>
+#include <string>
+#include <sstream>
 
 std::mutex Producer::producers_mutex;
 std::vector<Producer*> Producer::producers;
@@ -37,6 +40,19 @@ int main(int argc, char **argv){
           }
       }
 	}
-  
-  output.close();
+    output.close();
+
+    const std::string fileName = "solutions.txt";
+    std::fstream processedFile(fileName.c_str());
+    std::stringstream fileData;
+
+    fileData <<"---------------------------------------------------------------------\nBEGIN FILE solutions.txt\n___________________________________________\n";
+    fileData << "#Solutions for "<< n<<" queens\n";
+    fileData << utils::getTotal() << "\n";
+
+    fileData << processedFile.rdbuf();
+    processedFile.close();
+
+    processedFile.open(fileName.c_str(), std::fstream::out | std::fstream::trunc); 
+    processedFile << fileData.rdbuf();
 }

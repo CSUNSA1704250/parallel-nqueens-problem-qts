@@ -15,7 +15,7 @@ namespace utils{
   int getTotal(){return total;}
   int getTotalThreads(int n){
     int totalHW = std::thread::hardware_concurrency();
-    if(n < totalHW) totalHW = n;
+    if((n+1)/2 < totalHW) totalHW = (n+1)/2;
     return totalHW;
   }
   void sendSolutionToFile(std::deque<int> &queens){
@@ -23,6 +23,10 @@ namespace utils{
     for(auto& q: queens)
       output << q<<" ";
     output << "\n";
+  }
+  void sendSolutionToFile(std::string sol){
+    std::unique_lock<std::mutex> l(ios_m);
+    output << sol;
   }
 
   bool isEatable(int row, int column, std::deque<int> &queens) {
@@ -153,6 +157,28 @@ namespace utils{
         return "19";
       case 524288:
         return "20";
+      case 1048576:
+        return "21";
+      case 2097152:
+        return "22";
+      case 4194304:
+        return "23";
+      case 8388608:
+        return "24";
+      case 16777216:
+        return "25";
+      case 33554432:
+        return "26";
+      case 67108864:
+        return "27";
+      case 134217728:
+        return "28";
+      case 268435456:
+        return "29";
+      case 536870912:
+        return "30";
+      case 1073741824:
+        return "31";
       default:
         return "0";
     }
@@ -171,22 +197,34 @@ namespace utils{
     }
     return answer;
   }
-  void solveBitWay(int ld, int col, int rd, int ex1, int ex2, int* done, std::string answer){
+  void solveBitWay(int ld, int col, int rd, int ex1, int ex2, int* done, std::string answer, NQueen* queenProblem){
 
     if(col == *done){
-      //TODO change done to a member class
-      total++;
-      std::cout << answer <<"\n";
       //TODO change n for a real number
-      int n =5;
-      std::cout << inverse(answer, n) <<"\n";
+      int n = queenProblem -> getN();
+      answer += "\n" + inverse(answer, n) + "\n";
+      
+      Queue<std::string>* solutions = queenProblem->getSolutionsQueue();
+      while(!solutions -> push(answer)){
+        std::string solution;
+        bool sucessSolution = solutions -> pop(&solution);
+        if(sucessSolution)
+          utils::sendSolutionToFile(solution);
+      }
+      {
+        std::unique_lock<std::mutex> l(total_mutex);
+        total+=2;
+      }
+      
       return;
     }
+    if(queenProblem -> getType() == 1 && !queenProblem->getSolutionsQueue() -> isEmptyOfData())
+      return;
     int pos = ~(ld|rd|col|ex1) & *done;
     while(pos){
       int bit = pos & -pos;
       pos ^= bit;
-      solveBitWay((ld|bit)>>1, col|bit, (rd|bit)<<1, ex2, 0, done, answer + realPos(bit)+' ');
+      solveBitWay((ld|bit)>>1, col|bit, (rd|bit)<<1, ex2, 0, done, answer + realPos(bit)+' ', queenProblem);
       ex2 = 0;
     }
 

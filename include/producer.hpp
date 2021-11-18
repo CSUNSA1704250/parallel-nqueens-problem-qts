@@ -7,7 +7,7 @@
 
 class Producer{
   public:
-    Producer(NQueen*, Queue<std::deque<int>>*);
+    Producer(NQueen*, Queue<int>*);
     void produceData(int);
     bool isProducing(){return producing;}
     static std::vector<Producer*> producers;
@@ -15,7 +15,7 @@ class Producer{
     bool checkProducersState();
   private:
     NQueen* queenProblem;
-    Queue<std::deque<int>>* dataProduced;
+    Queue<int>* dataProduced;
     int totalHW;
     bool producing;
 };

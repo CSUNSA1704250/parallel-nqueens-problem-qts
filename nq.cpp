@@ -92,8 +92,11 @@ void nQueen(int n){
   
   int done = (1<<n) - 1;
   int exclusion = (1<<(n/2)) - 1;
-  string answer= "3 ";
-  solve(0,4,0,exclusion, n%2?exclusion: 0 ,&done, answer);
+  string answer= "";
+  int ld = 0, rd = 0;
+  int col = 0;
+  int bit = 8;
+  solve((ld|bit)>>1,col|bit,(rd|bit)<<1,n%2?exclusion:0, 0 ,&done, answer);
   cout << (count<<1) <<endl;
   count = 0;
 }
