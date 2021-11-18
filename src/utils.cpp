@@ -92,10 +92,6 @@ namespace utils{
     }
 
     simple_tokenizer(sol, pos);
-    std::cout << sol <<"\n";
-    for(int i = 0; i< pos.size(); i++){
-      std::cout << pos[i]<< std::endl;
-    }
     dotfile << "digraph D {\n"; 
     dotfile << "\tnode [shape=plaintext]\n";
     dotfile << "\tsome_node [\n";
